@@ -2,6 +2,7 @@
 
 #include "song.hpp"
 #include "friendships.hpp"
+#include "maxheap.hpp"
 #include "user.hpp"
 #include "parser.hpp"
 
@@ -16,6 +17,7 @@ int main(int argc, char **argsv)
     cout << "Welcome to CA5" << endl;
 
     Friendships network;
+    MaxHeap song_plays(20); // Init heap with 20 songs
     string input_str;
 
     for (;;)
@@ -24,8 +26,8 @@ int main(int argc, char **argsv)
         getline(cin, input_str);
         Parser parser(input_str);
 
-        if (OP("exit")) break;
-
+        if (OP("exit") || OP("quit")) break;
+        if (OP("debug_heap")) song_plays.debug_print();
     }
 
     return 0;
