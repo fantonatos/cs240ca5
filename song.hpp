@@ -3,52 +3,56 @@
 
 #include <iostream>
 #include <cstdbool>
-//#include <algorithm>
+#include <algorithm>
 #include <string>
 #include <ctime>
 
 /*
-#include "WordTokenizer.hpp"
-#include "LinkedList.hpp"
+#include "WordTokenizer.hpp"*/
 #include "helpfunctions.hpp"
-#include "BadWords.hpp"
-*/
+
+
+using namespace std;
 
 class Song
 {
 private:
-    std::string title;
-    std::string artist;
-    std::string duration;
-    std::string dateAdded;
-    std::string timeAdded;
+    string title;
+    string artist;
+    string duration;
+    string dateAdded;
+    string timeAdded;
 
     bool isSongExplicit;
 
-    //LinkedList<std::string> *lyrics;
-    //int progress = 0;
+    string getTitleLowercase()
+    {
+        string tmp = this->title;
+        transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
+        return tmp;
+    }
+
 public:
     Song() = default;
-    //~Song() { delete lyrics; }
     
     /**
      * Creates a song object based on the provided title, artist, duration, and explicitness.
      */
-    Song(std::string, std::string, std::string, bool);
+    Song(string, string, string, bool);
 
     /**
      * Reads the contents of the provided file and creates a song object accordingly.
      * (aka deserialize)
      */
-    //Song(std::string);
+    //Song(string);
 
     /**
      * Saves the Song's information as song-info and song-lyrics files in the
      * specified folder.
      */
-    //void Save(std::string);
+    //void Save(string);
 
-    const std::string GetTitle() { return title; }
+    const string GetTitle() { return title; }
     bool IsExplicit() { return isSongExplicit; }
 
     int GetSeconds()
@@ -57,30 +61,23 @@ public:
                atoi(duration.substr(0, 2).c_str()) * 60;
     }
 
-
-    /**
-     * Plays the number of requested words (from where previously left off).
-     * Plays entire song if not specified.
-     * 
-     * If word count is specified, and end of song is reached, returns true.
-     */
-    //bool Play(bool censor, int word_count = 0);
-
-    /*
-    int Rewind(int word_count = -1)
-    {
-        if (word_count <= -1) progress = 0;
-        else progress -= word_count;
-
-        if (progress < 0) progress = 0;
-
-        return progress;
-    }*/
-
     // Decides equality based on whether the titles match.
-    int operator==(const std::string &o) { if (o == title) return true; else return false; }
+    bool operator==(const string &o) { if (o == title) return true; else return false; }
+    bool operator==(const Song &o) { if (o.title == title) return true; else return false; }
 
-    friend std::ostream &operator<<(std::ostream &os, const Song &song)
+    /* Comparison Operators for Sorting in Alphabetical Order */
+    bool operator<(const Song &left)
+    {
+        return left.title.compare(this->title) < 0 ? false : true;
+    }
+
+    bool operator>(const Song &left)
+    {
+        return left.title.compare(this->title) > 0 ? false : true;
+    }
+
+
+    friend ostream &operator<<(ostream &os, const Song &song)
     {
         if (song.title == "" && song.artist == "" && song.duration == "")
             os << "Song does not exist.";
@@ -91,5 +88,7 @@ public:
         return os;
     }
 };
+
+
 
 #endif // !_SONG_HPP_
