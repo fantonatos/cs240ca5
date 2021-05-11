@@ -1,8 +1,10 @@
 #include <iostream>
+#include <vector>
 
 #include "song.hpp"
 #include "friendships.hpp"
 #include "maxheap.hpp"
+#include "bstree.hpp"
 #include "user.hpp"
 #include "parser.hpp"
 
@@ -12,12 +14,25 @@
 
 using namespace std;
 
+void BSTree_test();
+
 int main(int argc, char **argsv)
 {
     cout << "Welcome to CA5" << endl;
+    //BSTree_test();
 
     Friendships network;
-    MaxHeap song_plays(20); // Init heap with 20 songs
+    vector<Song *> songs;
+    
+    // Just for testing
+    // songs.push_back(new Song("aaa", "", "", false));
+    // songs.push_back(new Song("bbb", "", "", false));
+    // songs.push_back(new Song("ccc", "", "", false));
+    // songs.push_back(new Song("ddd", "", "", false));
+
+    BSTree<Song *> song_tree();
+    BSTree<User *> user_tree();
+    MaxHeap song_plays(songs); // Init heap by passing it our vector of songs
     string input_str;
 
     for (;;)
@@ -31,4 +46,22 @@ int main(int argc, char **argsv)
     }
 
     return 0;
+}
+
+
+void BSTree_test()
+{
+    BSTree<Song *> tree;
+
+    Song *one = new Song("bbb", "", "", false);
+    Song *two = new Song("aaa", "", "", false);
+    Song *three = new Song("ccc", "", "", false);
+    Song *four = new Song("abb", "", "", false);
+
+    tree.insert(one);
+    tree.insert(two);
+    tree.insert(three);
+    tree.insert(four);
+
+    tree.print();
 }

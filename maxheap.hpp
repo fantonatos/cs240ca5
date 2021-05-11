@@ -8,6 +8,7 @@
  */
 
 #include <string>
+#include <vector>
 
 #include "song.hpp"
 
@@ -76,14 +77,14 @@ public:
      * Max Heap class constructor.
      * capacity: Number of songs to track plays for
      */
-    MaxHeap(int song_count /*, BinarySearchTree &songs */)
+    MaxHeap(const vector<Song *>& v)
     {
-        capacity = song_count;
-        arrNodes = new struct song_info[song_count];
+        capacity = v.size();
+        arrNodes = new struct song_info[v.size()];
 
         // Import all the songs in the binary search tree into the heap.
-        for(int index = 0; index < song_count; index++)
-            insert(nullptr, index+1);
+        for(int index = 0; index < v.size(); index++)
+            insert(v[index], 0);
     }
 
     /**
@@ -99,12 +100,14 @@ public:
     void debug_print()
     {
         for (int i = 0; i < count; i++)
-            cout << "Node #" << i << " Has value " << arrNodes[i].cPlays << endl;
+            cout << "Node #" << i << " Has song " << *(arrNodes[i].pSong) << endl;
 
         int j = 0;
-        while (j <= count)
-            cout << "Right child of #" << j << "("<< arrNodes[j].cPlays <<") is " << right_child(j) << "(" << arrNodes[right_child(j)].cPlays << ")." << endl,
+        while (j < count && arrNodes[right_child(j)].pSong != nullptr)
+        {
+            cout << "Right child of Node #" << j << " is #" << right_child(j) << "(" << *(arrNodes[right_child(j)].pSong) << ")." << endl;
             j = right_child(j);
+        }
     }
 };
 
