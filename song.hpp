@@ -17,11 +17,14 @@ using namespace std;
 class Song
 {
 private:
+    /**
+     * Only title needed for this project
+     */
     string title;
-    string artist;
-    string duration;
-    string dateAdded;
-    string timeAdded;
+    // string artist;
+    // string duration;
+    // string dateAdded;
+    // string timeAdded;
 
     bool isSongExplicit;
 
@@ -36,9 +39,12 @@ public:
     Song() = default;
     
     /**
-     * Creates a song object based on the provided title, artist, duration, and explicitness.
+     * Creates a Song with title
      */
-    Song(string, string, string, bool);
+    Song(string _title)
+    {
+        title = _title;
+    }
 
     /**
      * Reads the contents of the provided file and creates a song object accordingly.
@@ -53,13 +59,13 @@ public:
     //void Save(string);
 
     const string GetTitle() { return title; }
-    bool IsExplicit() { return isSongExplicit; }
+    // bool IsExplicit() { return isSongExplicit; }
 
-    int GetSeconds()
-    {
-        return atoi(duration.substr(3, 2).c_str()) + 
-               atoi(duration.substr(0, 2).c_str()) * 60;
-    }
+    // int GetSeconds()
+    // {
+    //     return atoi(duration.substr(3, 2).c_str()) + 
+    //            atoi(duration.substr(0, 2).c_str()) * 60;
+    // }
 
     // Decides equality based on whether the titles match.
     bool operator==(const string &o) { if (o == title) return true; else return false; }
@@ -79,12 +85,19 @@ public:
 
     friend ostream &operator<<(ostream &os, const Song &song)
     {
-        if (song.title == "" && song.artist == "" && song.duration == "")
+        if (song.title == "")
+        {
             os << "Song does not exist.";
-        else
-            os << "\"" << song.title << "\" by " << song.artist 
-               << ", Duration: " << song.duration << ", Added on " 
-               << song.dateAdded << " " << song.timeAdded << (song.isSongExplicit ? " (Explicit)" : "") << ".";
+        }else
+        {
+            os << song.title;
+        }
+        // if (song.title == "" && song.artist == "" && song.duration == "")
+        //     os << "Song does not exist.";
+        // else
+        //     os << "\"" << song.title << "\" by " << song.artist 
+        //        << ", Duration: " << song.duration << ", Added on " 
+        //        << song.dateAdded << " " << song.timeAdded << (song.isSongExplicit ? " (Explicit)" : "") << ".";
         return os;
     }
 };
