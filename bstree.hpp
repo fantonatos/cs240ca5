@@ -54,6 +54,7 @@ class BSTree
 
     void freeMemory(Node*);
 
+    T search(string, Node*, bool*);
 
 public:
     BSTree()
@@ -71,7 +72,8 @@ public:
     {
         print(root);
     }
-    T search(string);
+
+    T search(string, bool*);
 };
 
 
@@ -114,9 +116,39 @@ void BSTree<T>::insert(T val)
 }
 
 template <class T>
-T BSTree<T>::search(string str)
+T BSTree<T>::search(string str, bool *found)
 {
+    return search(str, root, found);
+}
+
+template <class T>
+T BSTree<T>::search(string str, Node *parent, bool *found)
+{
+    if (parent == nullptr)
+    {
+        *found = false;
+        return nullptr;
+    }
+
+    if (*(parent->data) == str)
+    {
+        *found = true;
+        return parent->data;
+    }
     
+    // Decide to search left or right...
+
+    if (*(parent->data) < str)
+    {
+        return search(str, parent->right, found);
+    }
+    else if (*(parent->data) > str)
+    {
+        return search(str, parent->left, found);
+    }
+
+    *found = false;
+    return nullptr;
 }
 
 #endif // _BSTree_HPP_

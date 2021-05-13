@@ -43,7 +43,7 @@ public:
     /* Comparison Operators for Sorting in Alphabetical Order */
     bool operator<(const Song &left)
     {
-        return left.title.compare(this->title) < 0 ? false : true;
+        return to_lower(left.title).compare(to_lower(title)) < 0 ? false : true;
     }
 
     bool operator>(const Song &left)
@@ -51,6 +51,15 @@ public:
         return to_lower(left.title).compare(to_lower(title)) > 0 ? false : true;
     }
 
+    bool operator<(const string &left)
+    {
+        return to_lower(left).compare(to_lower(title)) < 0 ? false : true;
+    }
+
+    bool operator>(const string &left)
+    {
+        return to_lower(left).compare(to_lower(title)) > 0 ? false : true;
+    }
 
     friend ostream &operator<<(ostream &os, const Song &song)
     {

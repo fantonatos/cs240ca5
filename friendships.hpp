@@ -6,6 +6,7 @@
 
 #include "song.hpp"
 #include "user.hpp"
+#include "bstree.hpp"
 
 using namespace std;
 
@@ -22,10 +23,25 @@ class Friendships
 {
 private:
     // TODO: Implement the user map - key values of string "username" -> User*
-    map<string, User*> users;
+    BSTree<User *> users;
 public:
+    BSTree<User *> *GetUsers() { return &users; }
     void AddUser();
     void RemoveUser(); // is this required?
+    void CreateFriendship(string a, string b, bool *error)
+    {
+        // Create friendship between a and b
+
+        User *userA = users.search(a, error);
+        User *userB = users.search(b, error);
+        *error = !error; // because search returns true if found.
+
+        if (*error)
+        {
+            userA->AddFriend(userB);
+            userB->AddFriend(userA);
+        }
+    }
 };
 
 #endif // !_FRIENDSHIPS_HPP_

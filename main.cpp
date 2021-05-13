@@ -62,7 +62,7 @@ int main()
     Friendships network;
     vector<Song *> songs = fileread();
     BSTree<Song *> song_tree;
-    BSTree<User *> user_tree;
+    // BSTree<User *> user_tree;
     MaxHeap song_plays(songs);
     string input_str;
 
@@ -82,7 +82,7 @@ int main()
             if (username != "")
             {
                 cout << "Added user " << username << endl;
-                user_tree.insert(new User(username));
+                network.GetUsers()->insert(new User(username));
             }else cout << "Syntax: useradd <username>" << endl;
         }
         else if (OP("friend"))
@@ -90,11 +90,32 @@ int main()
             string a = parser.getArg1(), b = parser.getArg2();
             if (a != "" && a != "")
             {
-                cout << "Created friendship between " << a << " and " << b << "." << endl;
+                bool error = false;
+                network.CreateFriendship(a, b, &error);
+                if (!error) {
+                    cout << "Created friendship between " << a << " and " << b << "." << endl;
+                }else
+                {
+                    cout << "Failed to create friendship." << endl;
+                }
             }else cout << "Syntax: friend <username> <username>\n"
                           "Creates friendship between two users.\n";
         }
-        else if (OP("show") && ARG1("users")) user_tree.print();
+        else if (OP("search") && ARG1("user"))
+        {
+            bool found = false;
+            User *usr = network.GetUsers()->search(parser.getArg2(), &found);
+            if (found) cout << "User " << *usr << " exists." << endl;
+            else cout << "User not found" << endl;
+        }
+        else if (OP("search") && ARG1("song"))
+        {
+            bool found = false;
+            Song *s = song_tree.search(parser.getArg2(), &found);
+            if (found) cout << "Song " << *s << " exists." << endl;
+            else cout << "Song not found" << endl;
+        }
+        else if (OP("show") && ARG1("users")) network.GetUsers()->print();
         else if (OP("exit") || OP("quit")) break;
         else if (OP("debug_heap")) song_plays.debug_print();
         else if (parser.getOperation() != "") cout << "Input not recognized.\n";

@@ -30,6 +30,11 @@ public:
         username = _username;
     }
 
+    void AddFriend(User *other)
+    {
+        friends.push_back(other);
+    }
+
     /* Comparison Operators for Sorting in Alphabetical Order */
     bool operator<(const User &left)
     {
@@ -39,6 +44,16 @@ public:
     bool operator>(const User &left)
     {
         return to_lower(left.username).compare(to_lower(username)) > 0 ? false : true;
+    }
+
+    bool operator<(const string &str)
+    {
+        return to_lower(str).compare(to_lower(username)) < 0 ? false : true;
+    }
+
+    bool operator>(const string &str)
+    {
+        return to_lower(str).compare(to_lower(username)) > 0 ? false : true;
     }
 
     bool operator==(const string &str) { if (str == username) return true; else return false; }
