@@ -14,6 +14,12 @@ class User
 private:
     string username;
     vector<User *> friends;
+
+    string to_lower(string tmp)
+    {
+        transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
+        return tmp;
+    }
 public:
 
     /**
@@ -27,12 +33,12 @@ public:
     /* Comparison Operators for Sorting in Alphabetical Order */
     bool operator<(const User &left)
     {
-        return left.username.compare(username) < 0 ? false : true;
+        return to_lower(left.username).compare(to_lower(username)) < 0 ? false : true;
     }
 
     bool operator>(const User &left)
     {
-        return left.username.compare(username) > 0 ? false : true;
+        return to_lower(left.username).compare(to_lower(username)) > 0 ? false : true;
     }
 
     friend ostream &operator<<(ostream &os, const User &user)

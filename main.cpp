@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <assert.h>
 
 #include "friendships.hpp"
 #include "maxheap.hpp"
@@ -15,12 +16,14 @@
 
 using namespace std;
 
-void            BSTree_test();
 string          vtos(vector<string>);
 bool            file_exists(string path);
 vector<Song *>  fileread();
 
-vector<Song *> fileread(){
+vector<Song *> fileread()
+{
+    assert(file_exists("./songs/songs.txt"));
+
     WordTokenizer info_reader = WordTokenizer("./songs", "songs.txt");
     vector<Song *> songs;
     vector<string> nextline;
@@ -39,21 +42,20 @@ bool file_exists(string path)
 {
     ifstream ifs;
     ifs.open(path);
-    if (ifs) return true;
-    return false;
+    return (ifs) ? true : false;
 }
 
 // Converts a vector of strings, into one string
-string vtos(vector<std::string> vector)
+string vtos(vector<string> vector)
 {
 	string str = "";
-	for (int i = 0; i < vector.size() - 1; i++) str += vector[i] + " ";
+	for (int i = 0; i < (int)(vector.size()) - 1; i++) str += vector[i] + " ";
 	str += vector[vector.size() - 1];
     str = str.substr(0, str.size()-2);
 	return str;
 }
 
-int main(int argc, char **argsv)
+int main()
 {
     cout << "Welcome to CA5" << endl;
 
@@ -61,11 +63,11 @@ int main(int argc, char **argsv)
     vector<Song *> songs = fileread();
     BSTree<Song *> song_tree;
     BSTree<User *> user_tree;
-    MaxHeap song_plays(songs); // Init heap by passing it our vector of songs
+    MaxHeap song_plays(songs);
     string input_str;
 
-    // Add every song to the song_tree
-    for (int index = 0; index < songs.size(); index++)
+    // Populate song_tree from the song vector
+    for (int index = 0; index < (int)songs.size(); index++)
         song_tree.insert(songs[index]);
 
     for (;;)
@@ -91,21 +93,3 @@ int main(int argc, char **argsv)
 
     return 0;
 }
-
-/*
-void BSTree_test()
-{
-    BSTree<Song *> tree;
-
-    Song *one = new Song("bbb", "", "", false);
-    Song *two = new Song("aaa", "", "", false);
-    Song *three = new Song("ccc", "", "", false);
-    Song *four = new Song("abb", "", "", false);
-
-    tree.insert(one);
-    tree.insert(two);
-    tree.insert(three);
-    tree.insert(four);
-
-    tree.print();
-}*/

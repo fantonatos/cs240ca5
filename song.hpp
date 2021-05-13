@@ -17,9 +17,8 @@ private:
      */
     string title;
 
-    string getTitleLowercase()
+    string to_lower(string tmp)
     {
-        string tmp = this->title;
         transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
         return tmp;
     }
@@ -49,7 +48,7 @@ public:
 
     bool operator>(const Song &left)
     {
-        return left.title.compare(this->title) > 0 ? false : true;
+        return to_lower(left.title).compare(to_lower(title)) > 0 ? false : true;
     }
 
 

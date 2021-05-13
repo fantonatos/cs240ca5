@@ -83,7 +83,7 @@ public:
         arrNodes = new struct song_info[v.size()];
 
         // Import all the songs in the binary search tree into the heap.
-        for(int index = 0; index < v.size(); index++)
+        for(unsigned index = 0; index < (unsigned)v.size(); index++)
             insert(v[index], 0);
     }
 
