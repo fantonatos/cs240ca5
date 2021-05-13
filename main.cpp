@@ -64,8 +64,19 @@ int main(int argc, char **argsv)
         getline(cin, input_str);
         Parser parser(input_str);
 
-        if (OP("exit") || OP("quit")) break;
-        if (OP("debug_heap")) song_plays.debug_print();
+        if (OP("useradd"))
+        {
+            string username = parser.getArg1();
+            if (username != "")
+            {
+                cout << "Added user " << username << endl;
+                user_tree.insert(new User(username));
+            }else cout << "Syntax: useradd <username>" << endl;
+        }
+        else if (OP("show") && ARG1("users")) user_tree.print();
+        else if (OP("exit") || OP("quit")) break;
+        else if (OP("debug_heap")) song_plays.debug_print();
+        else if (perser.getOperation() != "") cout << "Input not recognized.\n";
     }
 
     return 0;
