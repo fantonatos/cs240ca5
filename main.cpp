@@ -1,21 +1,24 @@
 #include <iostream>
 #include <vector>
 
-#include "song.hpp"
 #include "friendships.hpp"
 #include "maxheap.hpp"
 #include "bstree.hpp"
+#include "song.hpp"
 #include "user.hpp"
 #include "parser.hpp"
 #include "WordTokenizer.hpp"
+
 #define OP(operation)   parser.getOperation() == operation
 #define ARG1(arg1)      parser.getArg1() == arg1
 #define ARG2(arg2)      parser.getArg2() == arg2
 
 using namespace std;
 
-void    BSTree_test();
-string  vtos(vector<string>);
+void            BSTree_test();
+string          vtos(vector<string>);
+bool            file_exists(string path);
+vector<Song *>  fileread();
 
 vector<Song *> fileread(){
     WordTokenizer info_reader = WordTokenizer("./songs", "songs.txt");
@@ -32,6 +35,14 @@ vector<Song *> fileread(){
     return songs;
 }
 
+bool file_exists(string path)
+{
+    ifstream ifs;
+    ifs.open(path);
+    if (ifs) return true;
+    return false;
+}
+
 // Converts a vector of strings, into one string
 string vtos(vector<std::string> vector)
 {
@@ -45,7 +56,6 @@ string vtos(vector<std::string> vector)
 int main(int argc, char **argsv)
 {
     cout << "Welcome to CA5" << endl;
-    //BSTree_test();
 
     Friendships network;
     vector<Song *> songs = fileread();
@@ -76,7 +86,7 @@ int main(int argc, char **argsv)
         else if (OP("show") && ARG1("users")) user_tree.print();
         else if (OP("exit") || OP("quit")) break;
         else if (OP("debug_heap")) song_plays.debug_print();
-        else if (perser.getOperation() != "") cout << "Input not recognized.\n";
+        else if (parser.getOperation() != "") cout << "Input not recognized.\n";
     }
 
     return 0;
