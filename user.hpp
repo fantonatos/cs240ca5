@@ -41,6 +41,9 @@ public:
         return to_lower(left.username).compare(to_lower(username)) > 0 ? false : true;
     }
 
+    bool operator==(const string &str) { if (str == username) return true; else return false; }
+    bool operator==(const User &user) { if (user.username == username) return true; else return false; }
+
     friend ostream &operator<<(ostream &os, const User &user)
     {
         if (user.username == "")

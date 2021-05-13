@@ -85,6 +85,15 @@ int main()
                 user_tree.insert(new User(username));
             }else cout << "Syntax: useradd <username>" << endl;
         }
+        else if (OP("friend"))
+        {
+            string a = parser.getArg1(), b = parser.getArg2();
+            if (a != "" && a != "")
+            {
+                cout << "Created friendship between " << a << " and " << b << "." << endl;
+            }else cout << "Syntax: friend <username> <username>\n"
+                          "Creates friendship between two users.\n";
+        }
         else if (OP("show") && ARG1("users")) user_tree.print();
         else if (OP("exit") || OP("quit")) break;
         else if (OP("debug_heap")) song_plays.debug_print();

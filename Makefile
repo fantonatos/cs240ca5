@@ -26,8 +26,5 @@ CA5: $(OBJ_DIR)/main.o
 $(OBJ_DIR)/main.o: main.cpp
 	g++ $(FLAGS) -c main.cpp -o $(OBJ_DIR)/main.o
 
-$(OBJ_DIR)/helpfunctions.o: helpfunctions.cpp
-	g++ $(FLAGS) -c helpfunctions.cpp -o $(OBJ_DIR)/helpfunctions.o
-
 clean:
 	rm -f $(OBJ_DIR)/*.o $(BIN_DIR)/$(EXECUTABLE)

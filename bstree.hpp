@@ -71,6 +71,7 @@ public:
     {
         print(root);
     }
+    T search(string);
 };
 
 
@@ -112,5 +113,10 @@ void BSTree<T>::insert(T val)
     }
 }
 
+template <class T>
+T BSTree<T>::search(string str)
+{
+    
+}
 
 #endif // _BSTree_HPP_
