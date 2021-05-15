@@ -65,7 +65,7 @@ int main()
     // BSTree<User *> user_tree;
     MaxHeap song_plays(songs);
     string input_str;
-
+    BSTree<Song *> p_song_tree;
     // Populate song_tree from the song vector
     for (int index = 0; index < (int)songs.size(); index++)
         song_tree.insert(songs[index]);
@@ -115,7 +115,18 @@ int main()
             if (found) cout << "Song " << *s << " exists." << endl;
             else cout << "Song not found" << endl;
         }
+        else if (OP("addsong"))
+        {
+            if (parser.getArg1() != "\0"){
+                song_tree.insert(new Song(parser.getArg1()));
+                cout << parser.getArg1() << " added to system" << endl;
+            }
+            else {
+                cout << "Error song not added, specify title" << endl;
+            }
+        }
         else if (OP("show") && ARG1("users")) network.GetUsers()->print();
+        else if (OP("show") && ARG1("songs")) song_tree.print();
         else if (OP("exit") || OP("quit")) break;
         else if (OP("debug_heap")) song_plays.debug_print();
         else if (parser.getOperation() != "") cout << "Input not recognized.\n";
