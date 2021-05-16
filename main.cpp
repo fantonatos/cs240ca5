@@ -116,6 +116,7 @@ int main()
                           "Syntax: friend <username>\n"
                           "Creates a friendship between the primary user and others.\n";
         }
+
         else if (OP("search") && ARG1("user"))
         {
             bool found = false;
@@ -140,6 +141,36 @@ int main()
             else {
                 cout << "Error song not added, specify title" << endl;
             }
+        }
+        else if (OP("removefriend")) {
+            string a = parser.getArg1(), b = parser.getArg2();
+            
+        
+            if (a != "" && b != "")
+            {
+                bool found = false;
+                User *usr1 = network.GetUsers()->search(a, &found);
+                if(!found){
+                    cout << "User not found" << endl;
+                    continue;
+                }
+                bool found2 = false;
+                User *usr2 = network.GetUsers()->search(b, &found2);
+                usr1->removeFriend(usr2);
+                usr2->removeFriend(usr1);
+                cout << "Friendship of " << a << " and " << b << " removed " << endl;
+            }
+            
+            // removing friend from primary user
+            else if (a != "" && b == "")
+            {
+                //p_friends_tree.remove()
+                cout << "remove PU friend" << endl;
+            }   else cout << "Syntax: removefriend <username> <username>\n"
+                          "Removes friendship between two users. OR\n"
+                          "Syntax: friend <username>\n"
+                          "Removes a friendship between the primary user and others.\n";
+
         }
         else if (OP("show") && ARG1("users")) network.GetUsers()->print();
         else if (OP("show") && ARG1("friends") && arg2 == "") cout << "Primary User's Friends: " << endl, p_friends_tree.print();

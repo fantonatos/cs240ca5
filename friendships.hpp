@@ -26,7 +26,7 @@ private:
     BSTree<User *> users;
 public:
     BSTree<User *> *GetUsers() { return &users; }
-    //void RemoveUser(); // is this required?
+    void RemoveUser(); // is this required?
 
     bool Exists(string usr)
     {
@@ -70,6 +70,9 @@ public:
         }
 
     }
+    
+    
+    
 };
 
 #endif // !_FRIENDSHIPS_HPP_

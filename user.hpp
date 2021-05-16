@@ -47,6 +47,14 @@ public:
         friends.push_back(other);
     }
 
+    void removeFriend(User *other){
+        for (int i = 0; i < friends.size(); i++){
+            if (friends[i] == other){
+                friends.erase(friends.begin() + i);
+            }
+        }
+    }
+
     vector<User *> *GetFriends()
     {
         return &friends;
