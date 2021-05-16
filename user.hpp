@@ -30,9 +30,26 @@ public:
         username = _username;
     }
 
+    /**
+     * Returns true if this User is friends with other User.
+     */
+    bool IsFriendsWith(User *other)
+    {
+        for (int i = 0; i < friends.size(); i++)
+            if (friends[i] == other) return true;
+        
+        return false;
+    }
+
     void AddFriend(User *other)
     {
+        cout << this << " pushing back " << *other << endl;
         friends.push_back(other);
+    }
+
+    vector<User *> *GetFriends()
+    {
+        return &friends;
     }
 
     /* Comparison Operators for Sorting in Alphabetical Order */

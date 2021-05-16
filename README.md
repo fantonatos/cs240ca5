@@ -3,8 +3,8 @@ Team Name: Let's Go Mets
 Members: Fotis Antonatos, Liam Lyu, Travis Hoa
 [See the Piazza post for project design](https://piazza.com/class/kkwzvpyvhe5349?cid=640).
 
- - [ ] Add a new user to the system
- - [ ] Make a friendship connection between two users, if that friendship does not yet exist. You should support friendship connections between the Primary User and other users, and also between pairs of other users
+ - [X] Add a new user to the system
+ - [X] Make a friendship connection between two users, if that friendship does not yet exist. You should support friendship connections between the Primary User and other users, and also between pairs of other users
  - [ ] Break a friendship connection between two specified users, if one exists
  - [ ] Add a new song to the system
  - [ ] Have a user listen to a song N times

@@ -62,10 +62,11 @@ int main()
     Friendships network;
     vector<Song *> songs = fileread();
     BSTree<Song *> song_tree;
-    // BSTree<User *> user_tree;
     MaxHeap song_plays(songs);
     string input_str;
     BSTree<Song *> p_song_tree;
+    BSTree<User *> p_friends_tree;
+    
     // Populate song_tree from the song vector
     for (int index = 0; index < (int)songs.size(); index++)
         song_tree.insert(songs[index]);
@@ -75,6 +76,7 @@ int main()
         cout << "\n: " << flush;
         getline(cin, input_str);
         Parser parser(input_str);
+        const string arg1 = parser.getArg1(), arg2 = parser.getArg2();
 
         if (OP("useradd"))
         {
@@ -88,18 +90,31 @@ int main()
         else if (OP("friend"))
         {
             string a = parser.getArg1(), b = parser.getArg2();
-            if (a != "" && a != "")
+            
+            // 2 Usernames provided
+            if (a != "" && b != "")
             {
-                bool error = false;
-                network.CreateFriendship(a, b, &error);
-                if (!error) {
-                    cout << "Created friendship between " << a << " and " << b << "." << endl;
-                }else
-                {
+
+                bool error = network.CreateFriendship(a, b);
+                if (error)
                     cout << "Failed to create friendship." << endl;
-                }
+                else
+                    cout << "Created friendship between " << a << " and " << b << "." << endl;
+                
+            }
+            // 1 username provided
+            else if (a != "" && b == "")
+            {
+                bool found = false;
+                User *usr = network.GetUsers()->search(a, &found);
+
+                if (found) p_friends_tree.insert(usr);
+                else cout << a << " does not exist." << endl;
+
             }else cout << "Syntax: friend <username> <username>\n"
-                          "Creates friendship between two users.\n";
+                          "Creates friendship between two users. OR\n"
+                          "Syntax: friend <username>\n"
+                          "Creates a friendship between the primary user and others.\n";
         }
         else if (OP("search") && ARG1("user"))
         {
@@ -119,6 +134,7 @@ int main()
         {
             if (parser.getArg1() != "\0"){
                 song_tree.insert(new Song(parser.getArg1()));
+                // TODO: Also add the song to the MaxHeap
                 cout << parser.getArg1() << " added to system" << endl;
             }
             else {
@@ -126,6 +142,8 @@ int main()
             }
         }
         else if (OP("show") && ARG1("users")) network.GetUsers()->print();
+        else if (OP("show") && ARG1("friends") && arg2 == "") cout << "Primary User's Friends: " << endl, p_friends_tree.print();
+        else if (OP("show") && ARG1("friends") && arg2 != "") network.ShowFriends(parser.getArg2());
         else if (OP("show") && ARG1("songs")) song_tree.print();
         else if (OP("exit") || OP("quit")) break;
         else if (OP("debug_heap")) song_plays.debug_print();

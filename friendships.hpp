@@ -26,21 +26,49 @@ private:
     BSTree<User *> users;
 public:
     BSTree<User *> *GetUsers() { return &users; }
-    void AddUser();
-    void RemoveUser(); // is this required?
-    void CreateFriendship(string a, string b, bool *error)
+    //void RemoveUser(); // is this required?
+
+    bool Exists(string usr)
+    {
+        bool found = false;
+        users.search(usr, &found);
+        return found;
+    }
+
+    bool CreateFriendship(string a, string b)
     {
         // Create friendship between a and b
+        bool found = false;
+        User *userA = users.search(a, &found);
+        User *userB = users.search(b, &found);
 
-        User *userA = users.search(a, error);
-        User *userB = users.search(b, error);
-        *error = !error; // because search returns true if found.
-
-        if (*error)
+        if (found)
         {
+            // Make sure they are not already friends, we want to prevent duplicates.
+            if (userA->IsFriendsWith(userB) || userB->IsFriendsWith(userA)) return !found;
+
             userA->AddFriend(userB);
             userB->AddFriend(userA);
         }
+
+        return !found; // returns true on error only
+    }
+
+    void ShowFriends(string un)
+    {
+        bool found = false;
+        User *usr = users.search(un, &found);
+
+        if (!found) return;
+        cout << "User " << *usr << endl;
+
+        vector<User *> *friends = usr->GetFriends();
+        cout << (friends == nullptr ? "nullptr" : "valid") << endl;
+        for (int i = 0; i < friends->size(); i++)
+        {
+            cout << "Has friend " << *(*friends)[i] << endl;
+        }
+
     }
 };
 
