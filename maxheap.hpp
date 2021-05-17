@@ -58,6 +58,8 @@ private:
             swap(index, parent(index)), parent(index) >= 0 ? sift_up(parent(index)) : sift_up(0);
     }
 
+    
+public:
     inline void insert(Song *song, int plays)
     {
         arrNodes[count].pSong = song;
@@ -65,8 +67,6 @@ private:
         sift_up(count);
         count++;
     }
-
-public:
 
     ~MaxHeap()
     {
@@ -91,7 +91,13 @@ public:
      * Increments the Plays counter for the song.
      * Does nothing if song_title is not found.
      */
-    void CountPlay(string song_title);
+    void CountPlay(string song_title){
+       for (int i = 0; i < count; i++)
+            if(song_title == arrNodes[i].pSong->GetTitle()){
+
+                arrNodes[i].cPlays++;
+            }
+    };
 
     void GetPlays(string song_title);
 
@@ -100,7 +106,7 @@ public:
     void debug_print()
     {
         for (int i = 0; i < count; i++)
-            cout << "Node #" << i << " Has song " << *(arrNodes[i].pSong) << endl;
+            cout << "Node #" << i << " Has song " << *(arrNodes[i].pSong) << " Number of Plays " << (arrNodes[i].cPlays) << endl;
 
         int j = 0;
         while (j < count && arrNodes[right_child(j)].pSong != nullptr)
@@ -108,6 +114,11 @@ public:
             cout << "Right child of Node #" << j << " is #" << right_child(j) << "(" << *(arrNodes[right_child(j)].pSong) << ")." << endl;
             j = right_child(j);
         }
+    }
+    void print()
+    {
+        for (int i = 0; i < count; i++)
+            cout << "System has song " << *(arrNodes[i].pSong) << " Number of Plays " << (arrNodes[i].cPlays) << endl;
     }
 };
 

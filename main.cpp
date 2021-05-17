@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <assert.h>
-
+#include <sstream>
 #include "friendships.hpp"
 #include "maxheap.hpp"
 #include "bstree.hpp"
@@ -77,7 +77,7 @@ int main()
         getline(cin, input_str);
         Parser parser(input_str);
         const string arg1 = parser.getArg1(), arg2 = parser.getArg2();
-
+        cout << parser.getArg1() << parser.getArg2() << endl;
         if (OP("useradd"))
         {
             string username = parser.getArg1();
@@ -135,7 +135,11 @@ int main()
         {
             if (parser.getArg1() != "\0"){
                 song_tree.insert(new Song(parser.getArg1()));
+                bool found = false;
+                Song *s = song_tree.search(parser.getArg1(), &found);
+                
                 // TODO: Also add the song to the MaxHeap
+                song_plays.insert(s, 0);
                 cout << parser.getArg1() << " added to system" << endl;
             }
             else {
@@ -170,16 +174,25 @@ int main()
                           "Removes friendship between two users. OR\n"
                           "Syntax: friend <username>\n"
                           "Removes a friendship between the primary user and others.\n";
-
         }
+        /*
+        else if (OP("userlisten")){
+            
+            if(parser.getArg1() != "" && parser.getArg2() != ""){
+                if(user.is)
+                song_plays.CountPlay(parser.getArg1());
+            }else cout << "Syntax: userlisten <user> <song title>\n";
+        }*/
+
         else if (OP("show") && ARG1("users")) network.GetUsers()->print();
         else if (OP("show") && ARG1("friends") && arg2 == "") cout << "Primary User's Friends: " << endl, p_friends_tree.print();
         else if (OP("show") && ARG1("friends") && arg2 != "") network.ShowFriends(parser.getArg2());
-        else if (OP("show") && ARG1("songs")) song_tree.print();
+        else if (OP("show") && ARG1("songs")) song_plays.print();
         else if (OP("exit") || OP("quit")) break;
         else if (OP("debug_heap")) song_plays.debug_print();
         else if (parser.getOperation() != "") cout << "Input not recognized.\n";
     }
+
 
     return 0;
 }
