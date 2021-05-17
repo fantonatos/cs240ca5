@@ -74,6 +74,12 @@ public:
     }
 
     T search(string, bool*);
+
+    /**
+     * Removes the node T matching the provided string.
+     * Type T must have the == operator overloaded
+     */
+    void remove(string);
 };
 
 
@@ -149,6 +155,12 @@ T BSTree<T>::search(string str, Node *parent, bool *found)
 
     *found = false;
     return nullptr;
+}
+
+template <class T>
+void BSTree<T>::remove(string str)
+{
+    
 }
 
 #endif // _BSTree_HPP_
