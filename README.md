@@ -3,15 +3,22 @@ Team Name: Let's Go Mets
 Members: Fotis Antonatos, Liam Lyu, Travis Hoa
 [See the Piazza post for project design](https://piazza.com/class/kkwzvpyvhe5349?cid=640).
 
- - [X] Add a new user to the system
- - [X] Make a friendship connection between two users, if that friendship does not yet exist. You should support friendship connections between the Primary User and other users, and also between pairs of other users
- - [ ] Break a friendship connection between two specified users, if one exists
- - [ ] Add a new song to the system
- - [ ] Have a user listen to a song N times
- - [ ] Set the EFN radius to K, where K is a small positive number. This operation influences which song listens, by friends, influence the Primary User.
- - [ ] Recommend and add to the Primary User's library, the top K songs that users from the Primary User's EFN
- - [ ] Remove a song from the Primary User's library
- - [ ] Show a list of friends, for the Primary User or for other users
- - [ ] Show songs in the Primary User's library
- - [ ] Show songs that are in the system but not in the Primary User's library, along with the number of relevant listens by users in the EFN. You may want to allow the user of your program to limit the number of songs that are shown
- - [ ] Everything in log(n)!
+## A. Making and Breaking Friendships `20 points`
+ - [ ] `10 pts` Add users, make friendships, break friendships, and show friendships
+ - [ ] `10 pts` Friendships of a user should be stored with his instance
+## B. Adding and Moving Songs `35 points`
+ - [ ] `5 pts` Add songs to system library and show them
+ - [ ] `5 pts` Add songs from system library to primary user library (via recommend), show the primary user's library
+ - [ ] `5 pts` Show main system library after some songs have been moved to primary user's library
+ - [ ] `5 pts` Remove song from primary user's library, show that they go back to system, with count of 0
+ - [ ] `15 pts` Song containers should be indexed by a BST (BinarySearchTree) to look up faster than O(N)
+## C. Tracking Listens `30 points`
+ - [ ] `5 pts` Show that you can build a network of friends, set EFN to 2
+ - [ ] `5 pts` Have users within the network listen to songs, causing the counts on the heap to go up (and show the songs w/ their plays)
+ - [ ] `5 pts` When users outside the network (EFN) listen to the song, the count should not go up
+ - [ ] `15 pts` Implement a BFS (BreadthFirstSearch)
+## D. Making Recommendations `35 points`
+ - [ ] `5 pts` Build up a heap using add song and listen, show the heap (displaying the songs and counts)
+ - [ ] `10 pts` Get recommendations for many songs at a time. Show that they come off the top of the heap and are added to user library
+ - [ ] `5 pts` Listen to a song after is has been moved within the heap to show that the BST can still find it and increase listen count
+ - [ ] `15 pts` Show that code for this functionality is implemented in a heap. Show the spot in the code where heap updates the BST index.
