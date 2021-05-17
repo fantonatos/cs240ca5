@@ -77,7 +77,7 @@ int main()
         getline(cin, input_str);
         Parser parser(input_str);
         const string arg1 = parser.getArg1(), arg2 = parser.getArg2();
-        cout << parser.getArg1() << parser.getArg2() << endl;
+
         if (OP("useradd"))
         {
             string username = parser.getArg1();
@@ -87,6 +87,7 @@ int main()
                 network.GetUsers()->insert(new User(username));
             }else cout << "Syntax: useradd <username>" << endl;
         }
+
         else if (OP("friend"))
         {
             string a = parser.getArg1(), b = parser.getArg2();
@@ -124,6 +125,7 @@ int main()
             if (found) cout << "User " << *usr << " exists." << endl;
             else cout << "User not found" << endl;
         }
+
         else if (OP("search") && ARG1("song"))
         {
             bool found = false;
@@ -131,6 +133,7 @@ int main()
             if (found) cout << "Song " << *s << " exists." << endl;
             else cout << "Song not found" << endl;
         }
+
         else if (OP("addsong"))
         {
             if (parser.getArg1() != "\0"){
@@ -146,6 +149,7 @@ int main()
                 cout << "Error song not added, specify title" << endl;
             }
         }
+
         else if (OP("removefriend")) {
             string a = parser.getArg1(), b = parser.getArg2();
             
@@ -175,17 +179,39 @@ int main()
                           "Syntax: friend <username>\n"
                           "Removes a friendship between the primary user and others.\n";
         }
+
+        //TODO: EFN needs to be implemented
         /*
         else if (OP("userlisten")){
             
             if(parser.getArg1() != "" && parser.getArg2() != ""){
-                if(user.is)
-                song_plays.CountPlay(parser.getArg1());
-            }else cout << "Syntax: userlisten <user> <song title>\n";
+                string s = parser.getArg2();
+                stringstream degree(s);
+                int x = 0;
+                degree >> x;
+                song_plays.CountPlay(parser.getArg1(), x);
+            }else cout << "Syntax: userlisten <song title> <N>\n";
         }*/
+
+        else if(OP("recommend")){
+            if(parser.getArg1() != "" && arg2 == ""){
+                string s = parser.getArg1();
+                stringstream degree(s);
+                int x = 0;
+                degree >> x;
+                if(x >= song_plays.getCapacity()) continue;
+                cout << "Songs that are recommended: " << endl;
+                for ( int i = 0; i < x; i++){
+                    cout << song_plays.HighestPlayedSong()->GetTitle() << endl;
+                    p_song_tree.insert(song_plays.HighestPlayedSong());
+                    song_plays.heap_extract_max();
+                }
+            } else cout << "Syntax: recommend <N> " << endl;
+        }
 
         else if (OP("show") && ARG1("users")) network.GetUsers()->print();
         else if (OP("show") && ARG1("friends") && arg2 == "") cout << "Primary User's Friends: " << endl, p_friends_tree.print();
+        else if (OP("show") && ARG1("psongs") && arg2 == "") cout << "Primary User's Songs: " << endl, p_song_tree.print();
         else if (OP("show") && ARG1("friends") && arg2 != "") network.ShowFriends(parser.getArg2());
         else if (OP("show") && ARG1("songs")) song_plays.print();
         else if (OP("exit") || OP("quit")) break;
