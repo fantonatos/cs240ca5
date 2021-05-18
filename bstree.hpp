@@ -91,6 +91,8 @@ public:
         print(root);
     }
 
+    bool empty() { return root == nullptr; }
+
     T search(string, bool*);
 
     /**

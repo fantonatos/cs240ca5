@@ -134,9 +134,7 @@ public:
 
         auto *friends = usr->GetFriends();
         for (int i = 0; i < (int)friends->size(); i++)
-        {
-            cout << "Has friend " << *(*friends)[i] << endl;
-        }
+            cout << *(*friends)[i] << endl;
     }
     
     /**
@@ -151,7 +149,8 @@ public:
         else {
             // remove all his friendships among simulated users
             vector<User *> *friends = usr->GetFriends();
-            for (int i = 0; i < (int)friends->size(); i++) ((*friends)[i])->RemoveFriend(usr);
+            for (int i = 0; i < (int)friends->size(); i++)
+                ((*friends)[i])->RemoveFriend(usr);
 
             // remove friendship with primary user
             primary_user_friends->remove(username);

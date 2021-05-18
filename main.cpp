@@ -245,16 +245,19 @@ int main()
             p_song_tree.remove(arg1);
             song_plays.insert(s, 0);
         }
-        // TODO: Should the show friends on a fake user print out "Primary User as a friend"?
         else if (OP("show") && ARG1("users")) network.GetUsers()->print();
-        else if (OP("show") && ARG1("friends") && arg2 == "") cout << "Primary User's Friends: " << endl, p_friends_tree.print();
-        else if (OP("show") && ARG1("psongs") && arg2 == "") cout << "Primary User's Songs: " << endl, p_song_tree.print();
-        else if (OP("show") && ARG1("friends") && arg2 != "")
+        else if (OP("show") && ARG1("friends"))
         {
-            cout << "This command only shows the simulated friends.\n" << 
-                    "Use \"show friends\" to display the primary user's friends.\n";
-            network.ShowFriends(parser.getArg2());
+            if (!p_friends_tree.empty())
+                cout << "Primary User's Friends: " << endl, p_friends_tree.print();
+
+            if (arg2 != "")
+            {
+                cout << endl << arg2 << "'s Friends:\n";
+                network.ShowFriends(arg2);
+            } 
         }
+        else if (OP("show") && ARG1("psongs") && arg2 == "") cout << "Primary User's Songs: " << endl, p_song_tree.print();
         else if (OP("show") && ARG1("songs")) song_plays.print();
         else if (OP("exit") || OP("quit")) break;
         else if (OP("debug_heap")) song_plays.debug_print();
