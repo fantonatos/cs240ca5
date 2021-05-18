@@ -213,6 +213,14 @@ int main()
                 }
             } else cout << "Syntax: recommend <N> " << endl;
         }
+	
+	else if (OP("setENF")) {
+        string a = parser.getArg1();
+        int EFN;
+        cin >> EFN;
+        bool found = false;
+        User *usr1 = network.GetUsers()->search(a, &found);
+        }
 
         else if (OP("removesong") && arg1 != "" && arg2 == ""){
             cout << "Removing " << arg1 << " from primary song list" << endl;
