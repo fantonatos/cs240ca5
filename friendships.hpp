@@ -75,10 +75,10 @@ public:
         User *usr = users.search(un, &found);
 
         if (!found) return;
+        
         cout << "User " << *usr << endl;
 
-        vector<User *> *friends = usr->GetFriends();
-        cout << (friends == nullptr ? "nullptr" : "valid") << endl;
+        auto *friends = usr->GetFriends();
         for (int i = 0; i < (int)friends->size(); i++)
         {
             cout << "Has friend " << *(*friends)[i] << endl;
@@ -109,9 +109,6 @@ public:
 
         return 0;
     }
-    
-    
-    
 };
 
 #endif // !_FRIENDSHIPS_HPP_
