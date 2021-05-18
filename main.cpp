@@ -66,6 +66,7 @@ int main()
     string input_str;
     BSTree<Song *> p_song_tree;
     BSTree<User *> p_friends_tree;
+    int efn_radius = 0;
     
     // Populate song_tree from the song vector
     for (int index = 0; index < (int)songs.size(); index++)
@@ -183,16 +184,34 @@ int main()
                           "Syntax: unfriend <username>\n"
                           "Removes a friendship between the primary user and others.\n";
         }
-
-        else if (OP("userlisten")){
+        // Makes a user listen to a song and increments it's count
+        else if (OP("listen")){
             
-            if(parser.getArg1() != "" && parser.getArg2() != ""){
-                string s = parser.getArg2();
-                stringstream degree(s);
-                int x = 0;
-                degree >> x;
-                song_plays.CountPlay(parser.getArg1(), x);
-            }else cout << "Syntax: userlisten <song title> <N>\n";
+            if(parser.getArg1() != "" && parser.getArg2() != "")
+            {
+                string usrname = parser.getArg1(), song = parser.getArg2();
+                
+                if (!network.Exists(usrname))
+                {
+                    cout << usrname << " not found." << endl;
+                    continue;
+                }
+
+                // Get the user's instance
+                bool found = false;
+                User *usr = network.GetUsers()->search(usrname, &found);
+
+                // Check if the user is within radius
+                auto p_friends_vector = p_friends_tree.as_vector();
+                int depth = network.FindUserRadius(p_friends_vector, usr);
+
+                if (depth >= 0)
+                    cout << usrname << " is " << depth << " friends away from primary user.\n";
+
+                // If the user is within the EFN radius, count his listen
+                if (depth <= efn_radius && depth >= 0) song_plays.CountPlay(song, 1);
+            
+            }else cout << "Syntax: listen <username> <song>\n";
 
         }
         // Grab reccomended songs from heap
@@ -212,13 +231,11 @@ int main()
             } else cout << "Syntax: recommend <N> " << endl;
         }
         // Sets the efn radius
-        else if (OP("efn")) {
-            string a = parser.getArg1();
-            int EFN;
-            cin >> EFN;
-            bool found = false;
-            User *usr1 = network.GetUsers()->search(a, &found);
+        else if (OP("efn") && arg1 != "") {
+            efn_radius = stoi(arg1);
+            cout << "EFN Radius is " << efn_radius << endl;
         }
+        else if (OP("efn") && arg1 == "") cout << "EFN Radius is " << efn_radius << endl;
         else if (OP("removesong") && arg1 != "" && arg2 == ""){
             cout << "Removing " << arg1 << " from primary song list" << endl;
             bool found = false;
