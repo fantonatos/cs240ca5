@@ -219,7 +219,8 @@ int main()
         else if (OP("show") && ARG1("psongs") && arg2 == "") cout << "Primary User's Songs: " << endl, p_song_tree.print();
         else if (OP("show") && ARG1("friends") && arg2 != "")
         {
-            cout << "Use \"show friends\" to display the primary user's friends.\n";
+            cout << "This command only shows the simulated friends.\n" << 
+                    "Use \"show friends\" to display the primary user's friends.\n";
             network.ShowFriends(parser.getArg2());
         }
         else if (OP("show") && ARG1("songs")) song_plays.print();

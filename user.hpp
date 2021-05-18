@@ -47,13 +47,11 @@ public:
         friends.push_back(other);
     }
 
-    void RemoveFriend(User *other){
-        for (int i = 0; i < (int)friends.size(); i++){
-            cout << "RemoveFriend() Comparing " << *(friends[i]) << " with " << *other << endl;
-            if (*(friends[i]) == *other){
+    void RemoveFriend(User *other)
+    {
+        for (int i = 0; i < (int)friends.size(); i++)
+            if (*(friends[i]) == *other)
                 friends.erase(friends.begin() + i);
-            }
-        }
     }
 
     string GetUsername() { return username; }

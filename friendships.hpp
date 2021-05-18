@@ -75,8 +75,6 @@ public:
         User *usr = users.search(un, &found);
 
         if (!found) return;
-        
-        cout << "User " << *usr << endl;
 
         auto *friends = usr->GetFriends();
         for (int i = 0; i < (int)friends->size(); i++)
@@ -95,9 +93,8 @@ public:
         User *usr = users.search(username, &found);
         if (!found) return 1;
         else {
-            // remove all his friendships
+            // remove all his friendships among simulated users
             vector<User *> *friends = usr->GetFriends();
-            cout << "Fotis: Number of friends: " << friends->size() << endl;
             for (int i = 0; i < (int)friends->size(); i++) ((*friends)[i])->RemoveFriend(usr);
 
             // remove friendship with primary user

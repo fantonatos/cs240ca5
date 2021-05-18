@@ -100,21 +100,16 @@ public:
     
     void deleteNode(Node *node, T data)
     {
-        cout << "Deleting " << *data << " Comparing with " << *(node->data) << endl;
-
         if (node == nullptr) return;
 
         if (*data == *(node->data))
         {
-            cout << "Data matched" << endl;
-            
             // Extra: If node is root
             if (node == root) root = nullptr;
 
             // Case 1: Leaf
             if (node->right == nullptr && node->left == nullptr)
             {
-                cout << "Case leaf\n";
                 // are we left or right to parent?
                 if (node->parent != nullptr)
                 {
@@ -133,7 +128,6 @@ public:
             // Case 2: Node has only one child
             if ((node->right != nullptr) != (node->left != nullptr))
             {
-                cout << "Case stem\n";
                 if (node->parent != nullptr)
                 {
                     // Child is to left
@@ -197,11 +191,7 @@ public:
 
             }
 
-bst_remove_exit:
-            cout << "root is " << root << endl;
-            cout << "node is " << node << endl;
-            cout << "node->data is inaccessible" << endl;
-            cout << "*(node->data) is inaccessible" << endl;
+bst_remove_exit:;
         }
 
         else if (*data < *(node->data))
