@@ -212,6 +212,14 @@ int main()
                 }
             } else cout << "Syntax: recommend <N> " << endl;
         }
+	
+	else if (OP("setENF")) {
+        string a = parser.getArg1();
+        int EFN;
+        cin >> EFN;
+        bool found = false;
+        User *usr1 = network.GetUsers()->search(a, &found);
+        }
 
         // TODO: Should the show friends on a fake user print out "Primary User as a friend"?
         else if (OP("show") && ARG1("users")) network.GetUsers()->print();
