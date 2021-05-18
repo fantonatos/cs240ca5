@@ -3,18 +3,16 @@
 FLAGS = -Wall -Wextra -g
 
 CA = 5
-LASTNAME = 
-BU_USERID = 
-GITHUB_USERID = 
+GROUP_NAME = let-s-go-mets
 EXECUTABLE = ca5
 OBJ_DIR = obj
 BIN_DIR = bin
-OBJS = $(OBJ_DIR)/main.o
+#OBJS = 	$(OBJ_DIR)/main.o
 
 ca5: CA5
 
 tar: clean
-	cd .. && tar -cvzf CA$(CA)_$(LASTNAME)_$(BU_USERID).tar.gz cs240-spring21-ca$(CA)-$(GITHUB_USERID) && cd -
+	cd .. && tar -cvzf CA$(CA)_$(GROUP_NAME).tar.gz cs240-spring21-ca$(CA)-$(GROUP_NAME) && cd -
 
 scrub: clean
 	rm ~* *.swp *\#

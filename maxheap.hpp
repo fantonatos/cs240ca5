@@ -8,6 +8,7 @@
  */
 
 #include <string>
+#include <vector>
 
 #include "song.hpp"
 
@@ -49,7 +50,28 @@ private:
         arrNodes[b] = tmp;
     }
 
-    //void max_heapify(int);
+    void max_heapify(int i){
+    
+        int l = left_child(i); // left = 2*i + 1
+        int r = right_child(i); // right = 2*i + 2
+        int largest;
+            
+        if (l <= capacity && arrNodes[l].cPlays > arrNodes[i].cPlays)
+            largest = l;
+        else largest = i;      
+        if (r <= capacity && arrNodes[r].cPlays > arrNodes[largest].cPlays)
+            largest = r;
+        
+            // If largest is not root
+        if (largest != i) {
+            swap(i, largest);
+        
+            // Recursively heapify the affected sub-tree
+            max_heapify(largest);
+        }
+
+
+    }
 
     void sift_up(int index)
     {
@@ -57,6 +79,8 @@ private:
             swap(index, parent(index)), parent(index) >= 0 ? sift_up(parent(index)) : sift_up(0);
     }
 
+    
+public:
     inline void insert(Song *song, int plays)
     {
         arrNodes[count].pSong = song;
@@ -64,8 +88,6 @@ private:
         sift_up(count);
         count++;
     }
-
-public:
 
     ~MaxHeap()
     {
@@ -76,21 +98,35 @@ public:
      * Max Heap class constructor.
      * capacity: Number of songs to track plays for
      */
-    MaxHeap(int song_count /*, BinarySearchTree &songs */)
+    MaxHeap(const vector<Song *>& v)
     {
-        capacity = song_count;
-        arrNodes = new struct song_info[song_count];
+        capacity = v.size();
+        arrNodes = new struct song_info[v.size()];
 
         // Import all the songs in the binary search tree into the heap.
-        for(int index = 0; index < song_count; index++)
-            insert(nullptr, index+1);
+        for(unsigned index = 0; index < (unsigned)v.size(); index++)
+            insert(v[index], 0);
     }
 
     /**
      * Increments the Plays counter for the song.
      * Does nothing if song_title is not found.
      */
-    void CountPlay(string song_title);
+    void CountPlay(string song_title, int n){
+       for (int i = 0; i < count; i++)
+            if(song_title == arrNodes[i].pSong->GetTitle()){
+                IncreaseKey(i, n);
+            }
+    }
+
+    void IncreaseKey(int i, int key){
+        if(key < arrNodes[i].cPlays) return;
+        arrNodes[i].cPlays += key;
+        while(i > 0 && arrNodes[parent(i)].cPlays < arrNodes[i].cPlays){
+            sift_up(i);
+            i= parent(i);
+        }
+    }
 
     void GetPlays(string song_title);
 
@@ -99,13 +135,33 @@ public:
     void debug_print()
     {
         for (int i = 0; i < count; i++)
-            cout << "Node #" << i << " Has value " << arrNodes[i].cPlays << endl;
+            cout << "Node #" << i << " Has song " << *(arrNodes[i].pSong) << " Number of Plays " << (arrNodes[i].cPlays) << endl;
 
         int j = 0;
-        while (j <= count)
-            cout << "Right child of #" << j << "("<< arrNodes[j].cPlays <<") is " << right_child(j) << "(" << arrNodes[right_child(j)].cPlays << ")." << endl,
+        while (j < count && arrNodes[right_child(j)].pSong != nullptr)
+        {
+            cout << "Right child of Node #" << j << " is #" << right_child(j) << "(" << *(arrNodes[right_child(j)].pSong) << ")." << endl;
             j = right_child(j);
+        }
     }
+    void print()
+    {
+        for (int i = 0; i < capacity; i++)
+            cout << "System has song " << *(arrNodes[i].pSong) << " Number of Plays " << (arrNodes[i].cPlays) << endl;
+    }
+    
+    Song* heap_extract_max(){
+        if(capacity < 1) return nullptr;
+        Song* max = arrNodes[0].pSong;
+        arrNodes[0] = arrNodes[capacity-1];
+        capacity = capacity - 1;
+        max_heapify(0);
+        return max;
+    }
+
+    int getCapacity() { return capacity;}
+
+
 };
 
 #endif // !_MAXHEAP_HPP_
