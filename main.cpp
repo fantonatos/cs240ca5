@@ -209,6 +209,20 @@ int main()
             } else cout << "Syntax: recommend <N> " << endl;
         }
 
+        else if (OP("removesong") && arg1 != "" && arg2 == ""){
+            cout << "Removing " << arg1 << " from primary song list" << endl;
+            bool found = false;
+            Song *s = p_song_tree.search(parser.getArg1(), &found);
+            if (found) cout << "Song " << *s << " exists." << endl;
+            else cout << "Song not found" << endl;
+            //TODO bst remove
+            //p_song_tree.remove(s);
+            song_plays.insert(s, 0);
+        }
+
+        
+
+
         else if (OP("show") && ARG1("users")) network.GetUsers()->print();
         else if (OP("show") && ARG1("friends") && arg2 == "") cout << "Primary User's Friends: " << endl, p_friends_tree.print();
         else if (OP("show") && ARG1("psongs") && arg2 == "") cout << "Primary User's Songs: " << endl, p_song_tree.print();

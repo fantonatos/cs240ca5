@@ -21,7 +21,9 @@ private:
     {
         transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
         return tmp;
+        int plays = 0;
     }
+
 
 public:
     Song() = default;
