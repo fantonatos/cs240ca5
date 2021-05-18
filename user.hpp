@@ -43,7 +43,7 @@ public:
 
     void AddFriend(User *other)
     {
-        cout << this << " pushing back " << *other << endl;
+        //cout << this << " pushing back " << *other << endl;
         friends.push_back(other);
     }
 
