@@ -4,8 +4,8 @@ Members: Fotis Antonatos, Liam Lyu, Travis Hoa
 [See the Piazza post for project design](https://piazza.com/class/kkwzvpyvhe5349?cid=640).
 
 ## A. Making and Breaking Friendships `20 points`
- - [ ] `10 pts` Add users, make friendships, break friendships, and show friendships
- - [ ] `10 pts` Friendships of a user should be stored with his instance
+ - [X] `10 pts` Add users, make friendships, break friendships, and show friendships
+ - [X] `10 pts` Friendships of a user should be stored with his instance
 ## B. Adding and Moving Songs `35 points`
  - [ ] `5 pts` Add songs to system library and show them
  - [ ] `5 pts` Add songs from system library to primary user library (via recommend), show the primary user's library

@@ -49,7 +49,8 @@ public:
 
     void RemoveFriend(User *other){
         for (int i = 0; i < (int)friends.size(); i++){
-            if (friends[i] == other){
+            cout << "RemoveFriend() Comparing " << *(friends[i]) << " with " << *other << endl;
+            if (*(friends[i]) == *other){
                 friends.erase(friends.begin() + i);
             }
         }
