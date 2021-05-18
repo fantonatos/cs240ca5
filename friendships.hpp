@@ -3,11 +3,11 @@
 
 #include <map>
 #include <string>
+#include <queue>
 
 #include "song.hpp"
 #include "user.hpp"
 #include "bstree.hpp"
-
 using namespace std;
 
 /**
@@ -22,9 +22,66 @@ using namespace std;
 class Friendships
 {
 private:
-    // TODO: Implement the user map - key values of string "username" -> User*
+    // No need for map, BST has a search method we can use
+    //map<string, User*> list;
     BSTree<User *> users;
+
 public:
+    
+    /**
+     * This is our implementation of BFS.
+     * Calling this on a User* will return how far he is from the primary user
+     * i.e: Immediate friends? 2nd, 3rd, 4th, friends?
+     */
+    int FindUserRadius(vector<User *> friends, User *user)
+    {
+        struct user_depth
+        {
+            User *usr;
+            int depth = 0;
+        };
+
+        queue<struct user_depth> search_queue;
+        vector<User *> explored;
+
+        // Enqueue all the primary's users initial friends
+        for (int i = 0; i < (int)friends.size(); i++)
+            search_queue.push((struct user_depth){friends[i], 0});
+
+        while (!search_queue.empty())
+        {
+            // pop the current item off the queue
+            struct user_depth sud = search_queue.front();
+            User *current = sud.usr;
+            int depth = sud.depth;
+            search_queue.pop();
+            
+            //cout << *current << " " << depth << endl;
+
+            // check if he is the user we are looking for
+            if (*(sud.usr) == *(user)) return sud.depth;
+
+            // mark him as explored
+            explored.push_back(current);
+
+            // add all his friends to the queue
+            vector<User *> *subfriends = current->GetFriends();
+            for (int i = 0; i < (int)subfriends->size(); i++)
+            {
+                User *next = (*subfriends)[i];
+
+                // Add if the user was not already explored
+                if (find(explored.begin(), explored.end(), next) == explored.end())
+                    search_queue.push((struct user_depth){next, depth + 1});
+            }
+        }
+        
+        // Returns -1 if user was never found
+        return -1;
+    }
+
+    /* End BFS graph traversal */
+
     BSTree<User *> *GetUsers() { return &users; }
 
     bool Exists(string usr)
@@ -36,21 +93,20 @@ public:
 
     bool CreateFriendship(string a, string b)
     {
-        // Create friendship between a and b
         bool found = false;
         User *userA = users.search(a, &found);
         User *userB = users.search(b, &found);
 
-        if (found)
+        if (!found) return 1;
+        else
         {
             // Make sure they are not already friends, we want to prevent duplicates.
-            if (userA->IsFriendsWith(userB) || userB->IsFriendsWith(userA)) return !found;
+            if (userA->IsFriendsWith(userB) || userB->IsFriendsWith(userA)) return 1;
 
             userA->AddFriend(userB);
             userB->AddFriend(userA);
+            return 0;
         }
-
-        return !found; // returns true on error only
     }
 
     // Removed the friendship between two users

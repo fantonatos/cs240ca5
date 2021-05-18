@@ -54,11 +54,11 @@ private:
     
         int l = left_child(i); // left = 2*i + 1
         int r = right_child(i); // right = 2*i + 2
-        int largest;
+        int largest = i;
             
-        if (l <= capacity && arrNodes[l].cPlays > arrNodes[i].cPlays)
+        if (l <= capacity && arrNodes[l].cPlays > arrNodes[largest].cPlays)
             largest = l;
-        else largest = i;      
+             
         if (r <= capacity && arrNodes[r].cPlays > arrNodes[largest].cPlays)
             largest = r;
         
@@ -89,6 +89,18 @@ public:
         count++;
     }
 
+    void insertnode(Song *song){
+        
+        count++;
+        int i = count++;
+        arrNodes[i].pSong = song;
+        arrNodes[i].pSong = 0;
+        while(i != 0 && arrNodes[parent(i)].cPlays < arrNodes[i].cPlays){
+            swap(i, parent(i));
+            i = parent(i);
+        } 
+    }
+
     ~MaxHeap()
     {
         delete[] arrNodes;
@@ -112,19 +124,21 @@ public:
      * Increments the Plays counter for the song.
      * Does nothing if song_title is not found.
      */
-    void CountPlay(string song_title, int n){
+    void CountPlay(string song_title, int n)
+    {
        for (int i = 0; i < count; i++)
             if(song_title == arrNodes[i].pSong->GetTitle()){
                 IncreaseKey(i, n);
             }
     }
 
-    void IncreaseKey(int i, int key){
-        if(key < arrNodes[i].cPlays) return;
+    void IncreaseKey(int i, int key)
+    {
         arrNodes[i].cPlays += key;
-        while(i > 0 && arrNodes[parent(i)].cPlays < arrNodes[i].cPlays){
-            sift_up(i);
-            i= parent(i);
+        
+        while(i > 0 && arrNodes[parent(i)].cPlays < arrNodes[i].cPlays){   
+            swap(i, parent(i));
+            i = parent(i);
         }
     }
 
@@ -146,15 +160,27 @@ public:
     }
     void print()
     {
-        for (int i = 0; i < capacity; i++)
-            cout << "System has song " << *(arrNodes[i].pSong) << " Number of Plays " << (arrNodes[i].cPlays) << endl;
+        int power = 0;
+        int value = 1;
+        for(int i = 0; i < count; i++){
+            if(i == value){
+                cout << endl;
+                power += 1;
+                value += (1 << power);
+            }
+            cout << "Song: "<<  arrNodes[i].pSong->GetTitle() << " Number of Plays:  " <<arrNodes[i].cPlays << endl ;
+        }
+        
     }
     
-    Song* heap_extract_max(){
+    Song* heap_extract_max()
+    {
         if(capacity < 1) return nullptr;
+
         Song* max = arrNodes[0].pSong;
-        arrNodes[0] = arrNodes[capacity-1];
-        capacity = capacity - 1;
+        arrNodes[0] = arrNodes[count-1];
+        capacity --;
+        count--;
         max_heapify(0);
         return max;
     }

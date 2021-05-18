@@ -23,6 +23,7 @@ private:
         return tmp;
     }
 
+
 public:
     Song() = default;
     
@@ -33,6 +34,7 @@ public:
     {
         title = _title;
     }
+    
 
     const string GetTitle() { return title; }
 
