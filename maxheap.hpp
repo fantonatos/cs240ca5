@@ -124,15 +124,16 @@ public:
      * Increments the Plays counter for the song.
      * Does nothing if song_title is not found.
      */
-    void CountPlay(string song_title, int n){
+    void CountPlay(string song_title, int n)
+    {
        for (int i = 0; i < count; i++)
             if(song_title == arrNodes[i].pSong->GetTitle()){
                 IncreaseKey(i, n);
             }
     }
 
-    void IncreaseKey(int i, int key){
-        if(key < arrNodes[i].cPlays) return;
+    void IncreaseKey(int i, int key)
+    {
         arrNodes[i].cPlays += key;
         
         while(i > 0 && arrNodes[parent(i)].cPlays < arrNodes[i].cPlays){   
@@ -172,7 +173,8 @@ public:
         
     }
     
-    Song* heap_extract_max(){
+    Song* heap_extract_max()
+    {
         if(capacity < 1) return nullptr;
 
         Song* max = arrNodes[0].pSong;

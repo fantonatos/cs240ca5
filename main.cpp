@@ -66,7 +66,7 @@ int main()
     string input_str;
     BSTree<Song *> p_song_tree;
     BSTree<User *> p_friends_tree;
-    int efn_radius = 0;
+    int efn_radius = 2;
     
     // Populate song_tree from the song vector
     for (int index = 0; index < (int)songs.size(); index++)
@@ -209,7 +209,7 @@ int main()
                     cout << usrname << " is " << depth << " friends away from primary user.\n";
 
                 // If the user is within the EFN radius, count his listen
-                if (depth <= efn_radius && depth >= 0) song_plays.CountPlay(song, 1);
+                if (depth < efn_radius && depth >= 0) song_plays.CountPlay(song, 1);
             
             }else cout << "Syntax: listen <username> <song>\n";
 
