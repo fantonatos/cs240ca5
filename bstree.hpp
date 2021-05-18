@@ -65,6 +65,15 @@ class BSTree
         return current;
     }
 
+    void traverse_add(vector<T> *v, Node *node)
+    {
+        if (node == nullptr) return;
+
+        traverse_add(v, node->left);
+        v->push_back(node->data);
+        traverse_add(v, node->right);
+    }
+
 public:
     BSTree()
     {
@@ -210,8 +219,14 @@ bst_remove_exit:
             deleteNode(node->right, data);
         
     }
-};
 
+    vector<T> as_vector()
+    {
+        vector<T> v;
+        traverse_add(&v, root);
+        return v;
+    }    
+};
 
 template <class T>
 void BSTree<T>::freeMemory(BSTree::Node *node)
