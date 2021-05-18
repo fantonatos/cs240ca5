@@ -85,7 +85,8 @@ int main()
             {
                 cout << "Added user " << username << endl;
                 network.GetUsers()->insert(new User(username));
-            }else cout << "Syntax: user add <username>" << endl;
+            }
+            else cout << "Syntax: user add <username>" << endl;
         }
         else if (OP("user") && ARG1("remove"))
         {
@@ -125,7 +126,7 @@ int main()
                           "Syntax: friend <username>\n"
                           "Creates a friendship between the primary user and others.\n";
         }
-
+        // Check if user exists
         else if (OP("search") && ARG1("user"))
         {
             bool found = false;
@@ -133,7 +134,7 @@ int main()
             if (found) cout << "User " << *usr << " exists." << endl;
             else cout << "User not found" << endl;
         }
-
+        // Check if song exists
         else if (OP("search") && ARG1("song"))
         {
             bool found = false;
@@ -141,7 +142,7 @@ int main()
             if (found) cout << "Song " << *s << " exists." << endl;
             else cout << "Song not found" << endl;
         }
-
+        // Add song to system library
         else if (OP("addsong"))
         {
             if (parser.getArg1() != "\0"){
@@ -183,8 +184,6 @@ int main()
                           "Removes a friendship between the primary user and others.\n";
         }
 
-        //TODO: EFN needs to be implemented
-        
         else if (OP("userlisten")){
             
             if(parser.getArg1() != "" && parser.getArg2() != ""){
@@ -196,8 +195,7 @@ int main()
             }else cout << "Syntax: userlisten <song title> <N>\n";
 
         }
-        
-
+        // Grab reccomended songs from heap
         else if(OP("recommend")){
             if(parser.getArg1() != "" && arg2 == ""){
                 string s = parser.getArg1();
@@ -213,15 +211,14 @@ int main()
                 }
             } else cout << "Syntax: recommend <N> " << endl;
         }
-	
-	else if (OP("setENF")) {
-        string a = parser.getArg1();
-        int EFN;
-        cin >> EFN;
-        bool found = false;
-        User *usr1 = network.GetUsers()->search(a, &found);
+        // Sets the efn radius
+        else if (OP("efn")) {
+            string a = parser.getArg1();
+            int EFN;
+            cin >> EFN;
+            bool found = false;
+            User *usr1 = network.GetUsers()->search(a, &found);
         }
-
         else if (OP("removesong") && arg1 != "" && arg2 == ""){
             cout << "Removing " << arg1 << " from primary song list" << endl;
             bool found = false;
@@ -231,10 +228,6 @@ int main()
             p_song_tree.remove(arg1);
             song_plays.insert(s, 0);
         }
-
-        
-
-
         // TODO: Should the show friends on a fake user print out "Primary User as a friend"?
         else if (OP("show") && ARG1("users")) network.GetUsers()->print();
         else if (OP("show") && ARG1("friends") && arg2 == "") cout << "Primary User's Friends: " << endl, p_friends_tree.print();

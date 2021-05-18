@@ -21,8 +21,8 @@ using namespace std;
 class Friendships
 {
 private:
-    // TODO: Implement the user map - key values of string "username" -> User*
-    map<string, User*> list;
+    // No need for map, BST has a search method we can use
+    //map<string, User*> list;
     BSTree<User *> users;
     
 public:
@@ -37,26 +37,21 @@ public:
 
     bool CreateFriendship(string a, string b)
     {
-        // Create friendship between a and b
         bool found = false;
         User *userA = users.search(a, &found);
         User *userB = users.search(b, &found);
-        
 
-        if (found)
+        if (!found) return 1;
+        else
         {
             // Make sure they are not already friends, we want to prevent duplicates.
-            if (userA->IsFriendsWith(userB) || userB->IsFriendsWith(userA)) return !found;
+            if (userA->IsFriendsWith(userB) || userB->IsFriendsWith(userA)) return 1;
 
             userA->AddFriend(userB);
             userB->AddFriend(userA);
-            
+            return 0;
         }
-
-        return !found; // returns true on error only
     }
-
-
 
     // Removed the friendship between two users
     void RemoveFriendship(string a, string b)
@@ -114,6 +109,8 @@ public:
 
         return 0;
     }
+
+
 };
 
 #endif // !_FRIENDSHIPS_HPP_
