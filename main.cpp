@@ -148,7 +148,6 @@ int main()
                 song_tree.insert(new Song(parser.getArg1()));
                 bool found = false;
                 Song *s = song_tree.search(parser.getArg1(), &found);
-                
                 // TODO: Also add the song to the MaxHeap
                 song_plays.insert(s, 0);
                 cout << parser.getArg1() << " added to system" << endl;
@@ -185,7 +184,7 @@ int main()
         }
 
         //TODO: EFN needs to be implemented
-        /*
+        
         else if (OP("userlisten")){
             
             if(parser.getArg1() != "" && parser.getArg2() != ""){
@@ -196,7 +195,7 @@ int main()
                 song_plays.CountPlay(parser.getArg1(), x);
             }else cout << "Syntax: userlisten <song title> <N>\n";
 
-        }*/
+        }
         
 
         else if(OP("recommend")){
