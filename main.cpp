@@ -78,16 +78,24 @@ int main()
         Parser parser(input_str);
         const string arg1 = parser.getArg1(), arg2 = parser.getArg2();
 
-        if (OP("useradd"))
+        if (OP("user") && ARG1("add"))
         {
-            string username = parser.getArg1();
+            string username = parser.getArg2();
             if (username != "")
             {
                 cout << "Added user " << username << endl;
                 network.GetUsers()->insert(new User(username));
-            }else cout << "Syntax: useradd <username>" << endl;
+            }else cout << "Syntax: user add <username>" << endl;
         }
-
+        else if (OP("user") && ARG1("remove"))
+        {
+            string username = parser.getArg2();
+            if (username != "")
+            {
+                cout << "Removed user " << username << endl;
+                network.RemoveUser(username, &p_friends_tree);
+            }else cout << "Syntax: user remove <username>" << endl;
+        }
         else if (OP("friend"))
         {
             string a = parser.getArg1(), b = parser.getArg2();
@@ -149,34 +157,30 @@ int main()
                 cout << "Error song not added, specify title" << endl;
             }
         }
-
-        else if (OP("removefriend")) {
+        else if (OP("unfriend")) {
             string a = parser.getArg1(), b = parser.getArg2();
-            
         
+            // User provided two usernames
             if (a != "" && b != "")
             {
                 bool found = false;
                 User *usr1 = network.GetUsers()->search(a, &found);
+                User *usr2 = network.GetUsers()->search(b, &found);
                 if(!found){
-                    cout << "User not found" << endl;
+                    cout << "A user was not found" << endl;
                     continue;
                 }
-                bool found2 = false;
-                User *usr2 = network.GetUsers()->search(b, &found2);
-                usr1->removeFriend(usr2);
-                usr2->removeFriend(usr1);
+                usr1->RemoveFriend(usr2);
+                usr2->RemoveFriend(usr1);
                 cout << "Friendship of " << a << " and " << b << " removed " << endl;
             }
-            
-            // removing friend from primary user
+            // One user name provided; remove friend from primary user
             else if (a != "" && b == "")
             {
-                //p_friends_tree.remove()
-                cout << "remove PU friend" << endl;
-            }   else cout << "Syntax: removefriend <username> <username>\n"
+                p_friends_tree.remove(a);
+            }else cout << "Syntax: unfriend <username> <username>\n"
                           "Removes friendship between two users. OR\n"
-                          "Syntax: friend <username>\n"
+                          "Syntax: unfriend <username>\n"
                           "Removes a friendship between the primary user and others.\n";
         }
 
@@ -191,7 +195,9 @@ int main()
                 degree >> x;
                 song_plays.CountPlay(parser.getArg1(), x);
             }else cout << "Syntax: userlisten <song title> <N>\n";
+
         }*/
+        
 
         else if(OP("recommend")){
             if(parser.getArg1() != "" && arg2 == ""){
@@ -212,17 +218,17 @@ int main()
         else if (OP("removesong") && arg1 != "" && arg2 == ""){
             cout << "Removing " << arg1 << " from primary song list" << endl;
             bool found = false;
-            Song *s = p_song_tree.search(parser.getArg1(), &found);
+            Song *s = p_song_tree.search(arg1, &found);
             if (found) cout << "Song " << *s << " exists." << endl;
             else cout << "Song not found" << endl;
-            //TODO bst remove
-            //p_song_tree.remove(s);
+            p_song_tree.remove(arg1);
             song_plays.insert(s, 0);
         }
 
         
 
 
+        // TODO: Should the show friends on a fake user print out "Primary User as a friend"?
         else if (OP("show") && ARG1("users")) network.GetUsers()->print();
         else if (OP("show") && ARG1("friends") && arg2 == "") cout << "Primary User's Friends: " << endl, p_friends_tree.print();
         else if (OP("show") && ARG1("psongs") && arg2 == "") cout << "Primary User's Songs: " << endl, p_song_tree.print();

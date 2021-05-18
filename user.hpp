@@ -35,7 +35,7 @@ public:
      */
     bool IsFriendsWith(User *other)
     {
-        for (int i = 0; i < friends.size(); i++)
+        for (int i = 0; i < (int)friends.size(); i++)
             if (friends[i] == other) return true;
         
         return false;
@@ -47,13 +47,16 @@ public:
         friends.push_back(other);
     }
 
-    void removeFriend(User *other){
-        for (int i = 0; i < friends.size(); i++){
-            if (friends[i] == other){
+    void RemoveFriend(User *other){
+        for (int i = 0; i < (int)friends.size(); i++){
+            cout << "RemoveFriend() Comparing " << *(friends[i]) << " with " << *other << endl;
+            if (*(friends[i]) == *other){
                 friends.erase(friends.begin() + i);
             }
         }
     }
+
+    string GetUsername() { return username; }
 
     vector<User *> *GetFriends()
     {

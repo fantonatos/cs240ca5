@@ -27,7 +27,6 @@ private:
     
 public:
     BSTree<User *> *GetUsers() { return &users; }
-    void RemoveUser(); // is this required?
 
     bool Exists(string usr)
     {
@@ -59,6 +58,21 @@ public:
 
 
 
+    // Removed the friendship between two users
+    void RemoveFriendship(string a, string b)
+    {
+        bool found = false;
+        User *userA = users.search(a, &found);
+        User *userB = users.search(b, &found);
+
+        if (found) RemoveFriendship(userA, userB);
+    }
+
+    void RemoveFriendship(User *a, User *b)
+    {
+        a->RemoveFriend(b);
+        b->RemoveFriend(a);
+    }
 
     void ShowFriends(string un)
     {
@@ -70,13 +84,36 @@ public:
 
         vector<User *> *friends = usr->GetFriends();
         cout << (friends == nullptr ? "nullptr" : "valid") << endl;
-        for (int i = 0; i < friends->size(); i++)
+        for (int i = 0; i < (int)friends->size(); i++)
         {
             cout << "Has friend " << *(*friends)[i] << endl;
         }
-
     }
     
+    /**
+     * It is unsafe to directly call remove on the BinarySearchTree
+     * because we will then have dangling pointers
+     */
+    bool RemoveUser(string username, BSTree<User *> *primary_user_friends)
+    {
+        bool found = false;
+        User *usr = users.search(username, &found);
+        if (!found) return 1;
+        else {
+            // remove all his friendships
+            vector<User *> *friends = usr->GetFriends();
+            cout << "Fotis: Number of friends: " << friends->size() << endl;
+            for (int i = 0; i < (int)friends->size(); i++) ((*friends)[i])->RemoveFriend(usr);
+
+            // remove friendship with primary user
+            primary_user_friends->remove(username);
+
+            // remove him from the system's user collection
+            users.remove(username);
+        }
+
+        return 0;
+    }
     
     
     
