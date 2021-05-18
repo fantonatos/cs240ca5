@@ -217,13 +217,13 @@ int main()
         // Grab reccomended songs from heap
         else if(OP("recommend")){
             if(parser.getArg1() != "" && arg2 == ""){
-                string s = parser.getArg1();
-                stringstream degree(s);
-                int x = 0;
-                degree >> x;
-                if(x >= song_plays.getCapacity()) continue;
+                int num = stoi(arg1);
+                
+                // Ensure there are enough songs to recommend
+                if(num >= song_plays.getCapacity()) continue;
+
                 cout << "Songs that are recommended: " << endl;
-                for ( int i = 0; i < x; i++){
+                for ( int i = 0; i < num; i++){
                     cout << song_plays.HighestPlayedSong()->GetTitle() << endl;
                     p_song_tree.insert(song_plays.HighestPlayedSong());
                     song_plays.heap_extract_max();
