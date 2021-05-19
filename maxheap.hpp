@@ -87,6 +87,7 @@ public:
         arrNodes[count].cPlays = plays;
         sift_up(count);
         count++;
+        capacity++;
     }
 
     void insertnode(Song *song){
@@ -135,10 +136,9 @@ public:
     void IncreaseKey(int i, int key)
     {
         arrNodes[i].cPlays += key;
-        
-        while(i > 0 && arrNodes[parent(i)].cPlays < arrNodes[i].cPlays){   
-            swap(i, parent(i));
-            i = parent(i);
+        while(i > 0 && arrNodes[i/2].cPlays < arrNodes[i].cPlays){   
+            swap(i, i/2);
+            i = i/2;
         }
     }
 
