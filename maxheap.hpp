@@ -12,6 +12,8 @@
 
 #include "song.hpp"
 
+#define CAP_M 5
+
 using namespace std;
 
 class MaxHeap
@@ -114,7 +116,7 @@ public:
     MaxHeap(const vector<Song *>& v)
     {
         capacity = v.size();
-        arrNodes = new struct song_info[v.size()];
+        arrNodes = new struct song_info[CAP_M * v.size()];
 
         // Import all the songs in the binary search tree into the heap.
         for(unsigned index = 0; index < (unsigned)v.size(); index++)
