@@ -87,6 +87,7 @@ public:
         arrNodes[count].cPlays = plays;
         sift_up(count);
         count++;
+        capacity++; // TODO: Temporary fix, should really change extractMax() to dercement count exclusively.
     }
 
     void insertnode(Song *song){
@@ -168,7 +169,7 @@ public:
                 power += 1;
                 value += (1 << power);
             }
-            cout << "Song: "<<  arrNodes[i].pSong->GetTitle() << " Number of Plays:  " <<arrNodes[i].cPlays << endl ;
+            cout << arrNodes[i].cPlays << "\t" << arrNodes[i].pSong->GetTitle() << endl;
         }
         
     }
