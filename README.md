@@ -1,24 +1,26 @@
-# CA5
-Team Name: Let's Go Mets
-Members: Fotis Antonatos, Liam Lyu, Travis Hoa
-[See the Piazza post for project design](https://piazza.com/class/kkwzvpyvhe5349?cid=640).
+# Final Project (CA5) for CS 240: Data Structures and Algorithms
+Binghamton University
 
-## A. Making and Breaking Friendships `20 points`
- - [X] `10 pts` Add users, make friendships, break friendships, and show friendships
- - [X] `10 pts` Friendships of a user should be stored with his instance
-## B. Adding and Moving Songs `35 points`
- - [X] `5 pts` Add songs to system library and show them
- - [X] `5 pts` Add songs from system library to primary user library (via recommend), show the primary user's library
- - [X] `5 pts` Show main system library after some songs have been moved to primary user's library
- - [X] `5 pts` Remove song from primary user's library, show that they go back to system, with count of 0
- - [X] `15 pts` Song containers should be indexed by a BST (BinarySearchTree) to look up faster than O(N)
-## C. Tracking Listens `30 points`
- - [X] `5 pts` Show that you can build a network of friends, set EFN to 2
- - [X] `5 pts` Have users within the network listen to songs, causing the counts on the heap to go up (and show the songs w/ their plays)
- - [X] `5 pts` When users outside the network (EFN) listen to the song, the count should not go up
- - [X] `15 pts` Implement a BFS (BreadthFirstSearch)
-## D. Making Recommendations `35 points`
- - [X] `5 pts` Build up a heap using add song and listen, show the heap (displaying the songs and counts)
- - [X] `10 pts` Get recommendations for many songs at a time. Show that they come off the top of the heap and are added to user library
- - [ ] `5 pts` Listen to a song after is has been moved within the heap to show that the BST can still find it and increase listen count
- - [X] `15 pts` Show that code for this functionality is implemented in a heap. Show the spot in the code where heap updates the BST index.
+Team Name: Let's Go Mets
+
+Collaborators: Fotis Antonatos, Travis Hoa, and Liam Lyu
+
+## Project Info
+This program simulates an [`Extended Friendship Network` (EFN)](friendships.hpp) containing users who listen to music. Using various data structures, a user can query the network and see what songs are popular among his friends and the friends of his friends. There is no limit to the network size. A user can accept song recommendations from `N` radius around him.
+## Specifications
+See [CHECKLIST.md](CHECKLIST.md)
+## Data Structures
+A requirement of this project is for all data to be accessible within O(log(n)) time complexity. For that reason, we chose these data structures:
+ - [Binary Search Tree](bstree.hpp): Stores [`Users`](user.hpp) and the global [`Song`](song.hpp) library.
+    - Allows searching for data in log(n) time.
+    - Linked Nodes Implementation
+ - [Max Heap](maxheap.hpp): Contains songs organized by their playcount
+    - Allows retrieval of most popular song in constant time.
+    - Array Implementation
+ - [Unweighted, Undirected Graph](friendships.hpp): Represents the `Extended Friendship Network`
+ ## Algorithms
+ Necessary for the proper implementation of the above data structures:
+ - Breadth First Search: Implemented in [`FindUserRadius()`](friendships.hpp)
+    - `FindUserRadius()` returns the distance of a provided `User` from the source `User`. i.e. The number of friends between them.
+    - Supports the counting of a Song's plays for users within the EFN Radius.
+    - Uses a FIFO Queue
