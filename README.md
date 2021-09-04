@@ -10,7 +10,7 @@ This program simulates an [`Extended Friendship Network`](friendships.hpp) (EFN)
 ## Specifications
 See [CHECKLIST.md](CHECKLIST.md)
 ## Data Structures
-A requirement of this project is for all data to be accessible within O(log(n)) time complexity. For that reason, we chose these data structures:
+A requirement of this project is that all data be accessible within O(log(n)) time complexity. For that reason, we chose these data structures:
  - [Binary Search Tree](bstree.hpp): Stores [`Users`](user.hpp) and the global [`Song`](song.hpp) library.
     - Allows searching for data in log(n) time.
     - Linked Nodes Implementation
@@ -19,9 +19,9 @@ A requirement of this project is for all data to be accessible within O(log(n)) 
     - Array Implementation
  - [Unweighted, Undirected Graph](friendships.hpp): Represents the `Extended Friendship Network`
  ## Algorithms
- Necessary for the proper implementation of the above data structures:
- - Breadth First Search: Implemented in [`FindUserRadius()`](friendships.hpp)
-    - `FindUserRadius()` returns the distance of a provided `User` from the source `User`. i.e. The number of friends between them.
+ Necessary for the proper implementation of the our data structures:
+ - Breadth First Search:
+    - [`FindUserRadius()`](friendships.hpp) returns the distance of a provided `User` from the source `User`; that is, the number of friends between them.
     - Supports the counting of a Song's plays for users within the EFN Radius.
     - Uses a FIFO Queue
  - Heap Algorithms
