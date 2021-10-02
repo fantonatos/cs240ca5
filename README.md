@@ -21,7 +21,7 @@ A requirement of this project is that all data be accessible within O(log(n)) ti
  ## Algorithms
  Necessary for the proper implementation of the our data structures:
  - Breadth First Search:
-    - [`FindUserRadius()`](friendships.hpp) returns the distance of a provided `User` from the source `User`; that is, the number of friends between them.
+    - [`FindUserRadius()`](friendships.hpp#L36) returns the distance of a provided `User` from the source `User`; that is, the number of friends between them.
     - Supports the counting of a Song's plays for users within the EFN Radius.
     - Uses a FIFO Queue
  - Heap Algorithms
